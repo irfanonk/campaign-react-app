@@ -19,32 +19,7 @@ function ShowCampaign(props) {
   const [loadingNewReq, setLoadingNewReq] = useState(false);
   const [loadingApprove, setLoadingApprove] = useState({ btnIdx: -1 });
 
-  // const [requests, setRequests] = useState(null);
   const [message, setMessage] = useState("");
-  // const [campaign, setCampaign] = useState();
-  // const [campaignData, setCampaignData] = useState({
-  //   minimunContribution: 0,
-  //   balance: 0,
-  //   requestsCount: 0,
-  //   approversCount: 0,
-  //   manager: "",
-  // });
-
-  // useEffect(() => {
-  //   (async () => {
-  //     // const accounts = await web3.eth.getAccounts();
-  //     const { summary } = props;
-
-  //     setCampaignData({
-  //       minimunContribution: summary[0],
-  //       balance: summary[1],
-  //       requestsCount: summary[2],
-  //       approversCount: summary[3],
-  //       manager: summary[4],
-  //     });
-
-  //   })();
-  // }, []);
 
   function showMessage(message) {
     setMessage(message);
