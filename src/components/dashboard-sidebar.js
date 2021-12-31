@@ -20,13 +20,13 @@ const items = [
   {
     href: "/",
     icon: <ChartBarIcon fontSize="small" />,
-    title: "Dashboard",
+    title: "Campaign",
   },
-  // {
-  //   href: "/customers",
-  //   icon: <UsersIcon fontSize="small" />,
-  //   title: "Customers",
-  // },
+  {
+    href: "/token",
+    icon: <UsersIcon fontSize="small" />,
+    title: "Token",
+  },
   // {
   //   href: "/products",
   //   icon: <ShoppingBagIcon fontSize="small" />,

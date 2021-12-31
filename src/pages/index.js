@@ -10,7 +10,7 @@ import { TotalProfit } from "../components/dashboard/total-profit";
 import { TrafficByDevice } from "../components/dashboard/traffic-by-device";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { NewCampaign } from "src/components/dashboard/new-campaign";
-import factory from "../eth/scripts/factory";
+import campaignFactory from "../eth/scripts/campaignFactory";
 import React, { useState, useEffect, Fragment } from "react";
 import web3 from "src/eth/scripts/web3";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ function Dashboard(props) {
   useEffect(() => {
     (async () => {
       const accounts = await web3.eth.getAccounts();
-      const deployedCampaigns = await factory.methods.getDeployedCampaign().call();
+      const deployedCampaigns = await campaignFactory.methods.getDeployedCampaign().call();
       setAccounts(accounts);
       setDeployedCampaign(deployedCampaigns);
     })();
@@ -37,13 +37,13 @@ function Dashboard(props) {
     setLoading(true);
     let newCampaignAdd;
     try {
-      newCampaignAdd = await factory.methods
+      newCampaignAdd = await campaignFactory.methods
         .createCampaign(minContribution)
         .send({
           from: accounts[0],
         })
         .then(async (tx) => {
-          setDeployedCampaign(await factory.methods.getDeployedCampaign().call());
+          setDeployedCampaign(await campaignFactory.methods.getDeployedCampaign().call());
           setLoading(false);
         });
     } catch (error) {
