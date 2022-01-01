@@ -20,8 +20,6 @@ const Token = (props) => {
     (async () => {
       const currentAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       const deployedTokens = await tokenFactory.methods.getDeployedToken().call();
-      const token = TokenContract(deployedTokens[1]);
-      // const sum = await token.methods.getSummary().call();
       setAccounts(currentAccounts);
       setDeployedTokens(deployedTokens);
       console.log("acc", currentAccounts, deployedTokens);

@@ -15,7 +15,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { getInitials } from "../../utils/get-initials";
+import Link from "next/link";
 
 export const TokenList = ({ tokens, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -104,7 +104,15 @@ export const TokenList = ({ tokens, ...rest }) => {
                       }}
                     >
                       <Typography color="textPrimary" variant="body1">
-                        {token}
+                        <Link
+                          href={{
+                            pathname: "/token/[showtoken]",
+                            query: { showtoken: token },
+                          }}
+                          passHref
+                        >
+                          {token}
+                        </Link>
                       </Typography>
                     </Box>
                   </TableCell>

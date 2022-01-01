@@ -76,7 +76,7 @@ function Dashboard(props) {
                   <Grid item lg={12} sm={12} xl={12} xs={12}>
                     <Link
                       href={{
-                        pathname: "/[showcampaign]",
+                        pathname: "/campaign/[showcampaign]",
                         query: { showcampaign: campaign },
                       }}
                       passHref
