@@ -1,19 +1,40 @@
 import { useRouter } from "next/router";
 import { DashboardLayout } from "src/components/dashboard-layout";
-import { Box, Container, Grid, Alert } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Alert,
+  Button,
+  Modal,
+  Typography,
+  Card,
+  CardContent,
+  CircularProgress,
+  CardHeader,
+  Divider,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import TokenContract from "src/eth/scripts/token";
-
+import tokenFactory from "src/eth/scripts/tokenFactory";
+import { TokenCard } from "src/components/token/token-card";
+import web3 from "src/eth/scripts/web3";
+import SellTokenBuild from "src/eth/build/SellToken";
+import token from "src/eth/scripts/token";
 function ShowToken(props) {
   const router = useRouter();
-  const { name, symbol, standart, totalSupply, tokenowner } = props.tokenData;
+  console.log("router", router);
+
+  const { tokenData } = props;
+  const [tokenAsWei, setTokenAsWei] = useState("0");
   const [accounts, setAccounts] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [loadingNewReq, setLoadingNewReq] = useState(false);
+  const [loadingSellToken, setLoadingSellToken] = useState(false);
   const [loadingApprove, setLoadingApprove] = useState({ btnIdx: -1 });
-
   const [message, setMessage] = useState("");
-
+  const [openModal, setOpenModal] = useState(false);
+  const [values, setValues] = useState({});
   useEffect(() => {
     (async () => {
       const currentAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -28,6 +49,35 @@ function ShowToken(props) {
     }, 10000);
   }
 
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
+    setTokenAsWei(web3.utils.toWei(`${event.target.value ? event.target.value : "0"}`, "ether"));
+  };
+  const onDeploySellTokenContractSubmit = async (e) => {
+    e.preventDefault();
+    setLoadingSellToken(true);
+    let tokenContractAddr = router.query.showtoken;
+    let tokenPrize = web3.utils.toWei(`${values.tokenPrize}`, "ether");
+    console.log("val", tokenPrize);
+    try {
+      let sellToken = await new web3.eth.Contract(SellTokenBuild.abi)
+        .deploy({
+          data: SellTokenBuild.bytecode,
+          arguments: [tokenContractAddr, tokenPrize],
+        })
+        .send({ gas: 1_000_000, from: accounts[0] });
+      console.log("deployed", sellToken.options.address);
+
+      setLoadingSellToken(false);
+    } catch (error) {
+      console.log("err", error);
+      setLoadingSellToken(false);
+      setOpenModal(false);
+    }
+  };
   return (
     <Box
       component="main"
@@ -39,11 +89,90 @@ function ShowToken(props) {
       {message ? (
         <Alert style={{ position: "fixed", zIndex: "10", width: "100%" }}>{message} </Alert>
       ) : null}
-      <Container maxWidth={false}>{name}</Container>
+      <Container maxWidth={false}>
+        <Grid item lg={12} sm={12} xl={12} xs={12}>
+          {props.tokenData.sellerContract.includes("0x00") ? (
+            <Button
+              onClick={() => setOpenModal(!openModal)}
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={!props.tokenData.sellerContract.includes("0x00")}
+            >
+              Sell Token
+            </Button>
+          ) : (
+            <Button color="success" variant="outlined">
+              On Sale
+            </Button>
+          )}
+          <Modal
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <form onSubmit={onDeploySellTokenContractSubmit}>
+                <Card>
+                  <CardHeader subheader="Token Prize (Eth)" title="Sell Token" />
+                  <Divider />
+                  <CardContent>
+                    <TextField
+                      label="Token Prize"
+                      margin="normal"
+                      name="tokenPrize"
+                      defaultValue={0}
+                      onChange={handleChange}
+                      value={values.tokenPrize}
+                      type="number"
+                      variant="outlined"
+                    />
+                  </CardContent>
+                  <Typography sx={{ mb: 2 }}>
+                    {/* {web3.utils.fromWei(`${values.tokenPrize}`)} */}
+                    {tokenAsWei} Wei
+                  </Typography>
+                  <Divider />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      p: 2,
+                    }}
+                  >
+                    <Button
+                      disabled={loadingSellToken}
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                    >
+                      {loadingSellToken ? <CircularProgress color="secondary" /> : "Create"}
+                    </Button>
+                  </Box>
+                </Card>
+              </form>
+            </Box>
+          </Modal>
+        </Grid>
+        <Grid item lg={12} sm={12} xl={12} xs={12}>
+          <TokenCard token={tokenData} />
+        </Grid>
+      </Container>
     </Box>
   );
 }
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 ShowToken.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 ShowToken.getInitialProps = async (ctx) => {
@@ -57,6 +186,7 @@ ShowToken.getInitialProps = async (ctx) => {
     standart: summary[2],
     totalSupply: summary[3],
     tokenOwner: summary[4],
+    sellerContract: summary[5],
   };
   console.log("tokenData", tokenData);
   return { tokenData };

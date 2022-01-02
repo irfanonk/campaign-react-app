@@ -24,7 +24,7 @@ export const CreateNewToken = (props) => {
   return (
     <form onSubmit={(e) => props.onSubmit(e, values)}>
       <Card>
-        <CardHeader subheader="Enter Min Contribution (wei)" title={props.title} />
+        <CardHeader subheader="Fill token information" title="Create New Token" />
         <Divider />
         <CardContent>
           <TextField
@@ -77,7 +77,7 @@ export const CreateNewToken = (props) => {
           }}
         >
           <Button disabled={props.loading} type="submit" color="primary" variant="contained">
-            {props.loading ? <CircularProgress color="secondary" /> : "Send"}
+            {props.loading ? <CircularProgress color="secondary" /> : "Create"}
           </Button>
         </Box>
       </Card>
