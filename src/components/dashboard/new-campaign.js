@@ -21,10 +21,7 @@ export const NewCampaign = (props) => {
       [event.target.name]: event.target.value,
     });
   };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log("minContribution", values.minContribution);
-  };
+
   return (
     <form onSubmit={(e) => props.onSubmit(e, values.minContribution)}>
       <Card>

@@ -17,16 +17,16 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import TokenContract from "src/eth/scripts/token";
+import SellTokenContract from "src/eth/scripts/sellToken";
 import tokenFactory from "src/eth/scripts/tokenFactory";
 import { TokenCard } from "src/components/token/token-card";
 import web3 from "src/eth/scripts/web3";
 import SellTokenBuild from "src/eth/build/SellToken";
-import token from "src/eth/scripts/token";
 function ShowToken(props) {
   const router = useRouter();
   console.log("router", router);
 
-  const { tokenData } = props;
+  const { token, tokenSummary } = props;
   const [tokenAsWei, setTokenAsWei] = useState("0");
   const [accounts, setAccounts] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -91,13 +91,13 @@ function ShowToken(props) {
       ) : null}
       <Container maxWidth={false}>
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          {props.tokenData.sellerContract.includes("0x00") ? (
+          {props.tokenSummary.sellerContract.includes("0x00") ? (
             <Button
               onClick={() => setOpenModal(!openModal)}
               type="submit"
               color="primary"
               variant="contained"
-              disabled={!props.tokenData.sellerContract.includes("0x00")}
+              disabled={!props.tokenSummary.sellerContract.includes("0x00")}
             >
               Sell Token
             </Button>
@@ -129,10 +129,7 @@ function ShowToken(props) {
                       variant="outlined"
                     />
                   </CardContent>
-                  <Typography sx={{ mb: 2 }}>
-                    {/* {web3.utils.fromWei(`${values.tokenPrize}`)} */}
-                    {tokenAsWei} Wei
-                  </Typography>
+                  <Typography sx={{ mb: 2 }}>{tokenAsWei} Wei</Typography>
                   <Divider />
                   <Box
                     sx={{
@@ -156,8 +153,13 @@ function ShowToken(props) {
           </Modal>
         </Grid>
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <TokenCard token={tokenData} />
+          <TokenCard tokenSummary={tokenSummary} token={token} accounts={accounts} />
         </Grid>
+        {props.tokenSummary.sellerContract.includes("0x00") ? null : (
+          <Grid item lg={12} sm={12} xl={12} xs={12}>
+            {/* <TokenCard token={tokenSummary} /> */}
+          </Grid>
+        )}
       </Container>
     </Box>
   );
@@ -179,16 +181,28 @@ ShowToken.getInitialProps = async (ctx) => {
   // console.log("ctx", ctx, ctx.query);
 
   const token = TokenContract(ctx.query.showtoken);
-  const summary = await token.methods.getSummary().call();
-  const tokenData = {
-    name: summary[0],
-    symbol: summary[1],
-    standart: summary[2],
-    totalSupply: summary[3],
-    tokenOwner: summary[4],
-    sellerContract: summary[5],
+  const summaryToken = await token.methods.getSummary().call();
+  const tokenSummary = {
+    name: summaryToken[0],
+    symbol: summaryToken[1],
+    standart: summaryToken[2],
+    totalSupply: summaryToken[3],
+    tokenOwner: summaryToken[4],
+    sellerContract: summaryToken[5],
   };
-  console.log("tokenData", tokenData);
-  return { tokenData };
+
+  // let sellerContractData;
+  // if (!summaryToken[5].includes("0x00")) {
+  //   const sellToken = SellTokenContract(summaryToken[5]);
+  //   const summarySellToken = await sellToken.methods.getSummary().call();
+  //   sellerContractData = {
+  //     tokenPrice: summarySellToken[0],
+  //     tokensSold: summarySellToken[1],
+  //     admin: summarySellToken[2],
+  //   };
+  // }
+
+  console.log("tokenSummary", tokenSummary);
+  return { token, tokenSummary };
 };
 export default ShowToken;
