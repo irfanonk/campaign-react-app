@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
@@ -16,17 +16,23 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import TokenContract from "src/eth/scripts/token";
 
-export const TokenList = ({ tokens, ...rest }) => {
+export const TokenList = ({ tokenDatas }) => {
+  console.log("tokenDatas", tokenDatas);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
+  useEffect(() => {
+    (async () => {})();
+  }, [tokenDatas]);
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = tokens.map((token) => token.id);
+      newSelectedCustomerIds = tokenDatas.map((token) => token.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -63,7 +69,7 @@ export const TokenList = ({ tokens, ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -71,60 +77,93 @@ export const TokenList = ({ tokens, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === tokens.length}
+                    checked={selectedCustomerIds.length === tokenDatas.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0 && selectedCustomerIds.length < tokens.length
+                      selectedCustomerIds.length > 0 &&
+                      selectedCustomerIds.length < tokenDatas.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
                 <TableCell>Address</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>symbol</TableCell>
+                <TableCell>Total Supply</TableCell>
+                <TableCell>Owner</TableCell>
+                <TableCell>On Sale</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tokens.slice(0, limit).map((token) => (
-                <TableRow
-                  hover
-                  key={token.id}
-                  selected={selectedCustomerIds.indexOf(token.id) !== -1}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(token.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, token.id)}
-                      value="true"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
+              {tokenDatas.length
+                ? tokenDatas.slice(0, limit).map((token) => (
+                    <TableRow
+                      hover
+                      key={token.id}
+                      selected={selectedCustomerIds.indexOf(token.id) !== -1}
                     >
-                      <Typography color="textPrimary" variant="body1">
-                        <Link
-                          href={{
-                            pathname: "/token/[showtoken]",
-                            query: { showtoken: token },
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedCustomerIds.indexOf(token.id) !== -1}
+                          onChange={(event) => handleSelectOne(event, token.id)}
+                          value="true"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                            display: "flex",
                           }}
-                          passHref
                         >
-                          {token}
-                        </Link>
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
+                          <Typography color="textPrimary" variant="body1">
+                            <Link
+                              href={{
+                                pathname: "/token/[showtoken]",
+                                query: { showtoken: token.address },
+                              }}
+                              passHref
+                            >
+                              {token.address}
+                            </Link>
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textPrimary" variant="body1">
+                          {token.name}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textPrimary" variant="body1">
+                          {token.symbol}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textPrimary" variant="body1">
+                          {token.totalSupply}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textPrimary" variant="body1">
+                          {token.tokenOwner}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography color="textPrimary" variant="body1">
+                          {token.sellerContract.includes("0x00") ? "NO" : "YES"}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : "Loading"}
             </TableBody>
           </Table>
         </Box>
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={tokens.length}
+        count={tokenDatas.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -136,5 +175,5 @@ export const TokenList = ({ tokens, ...rest }) => {
 };
 
 TokenList.propTypes = {
-  tokens: PropTypes.array.isRequired,
+  tokenDatas: PropTypes.array.isRequired,
 };

@@ -16,25 +16,46 @@ const Token = (props) => {
   const [loading, setLoading] = useState(false);
   const [deployedTokens, setDeployedTokens] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const [tokenDatas, setTokenDatas] = useState([]);
   useEffect(() => {
     (async () => {
-      const currentAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      const deployedTokens = await tokenFactory.methods.getDeployedToken().call();
-      setAccounts(currentAccounts);
-      setDeployedTokens(deployedTokens);
-      console.log("acc", currentAccounts, deployedTokens);
-      console.log("mthds", tokenFactory.methods);
-    })();
+      try {
+        let datas = [];
+        const currentAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const deployedTokens = await tokenFactory.methods.getDeployedToken().call();
 
-    return () => {};
+        setAccounts(currentAccounts);
+        setDeployedTokens(deployedTokens);
+
+        for (let idx = 0; idx < deployedTokens.length; idx++) {
+          const tokenC = TokenContract(deployedTokens[idx]);
+          const summaryToken = await tokenC.methods.getSummary().call();
+          const tokenSummary = {
+            id: idx,
+            address: deployedTokens[idx],
+            name: summaryToken[0],
+            symbol: summaryToken[1],
+            standart: summaryToken[2],
+            totalSupply: summaryToken[3],
+            tokenOwner: summaryToken[4],
+            sellerContract: summaryToken[5],
+          };
+          datas.push(tokenSummary);
+          setTokenDatas(datas);
+        }
+        console.log("datas", datas, typeof datas);
+        console.log("datas", datas, datas.length, typeof datas);
+      } catch (error) {
+        console.log("err", error);
+      }
+    })();
   }, []);
   const onSubmit = async (e, values) => {
     e.preventDefault();
     setLoading(true);
-    console.log("acc", accounts);
 
     const { name, symbol, standart, initialSupply } = values;
-    console.log("vales", name, symbol, standart, initialSupply);
+
     try {
       await tokenFactory.methods
         .createToken(name, symbol, standart, initialSupply)
@@ -65,7 +86,7 @@ const Token = (props) => {
       >
         <Container maxWidth={false}>
           <Box sx={{ mt: 3 }}>
-            <TokenList tokens={deployedTokens} />
+            <TokenList tokenDatas={tokenDatas} />
           </Box>
           <Box sx={{ mt: 3 }}>
             <CreateNewToken onSubmit={onSubmit} loading={loading} />
@@ -77,8 +98,6 @@ const Token = (props) => {
 };
 Token.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 Token.getInitialProps = async (ctx) => {
-  console.log("initial");
-
   return {};
 };
 
