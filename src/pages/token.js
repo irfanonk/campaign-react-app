@@ -42,7 +42,6 @@ const Token = (props) => {
           from: accounts[0],
         })
         .then(async (tx) => {
-          console.log("tx", tx);
           const deployedTokens = await tokenFactory.methods.getDeployedToken().call();
           setDeployedTokens(deployedTokens);
           setLoading(false);

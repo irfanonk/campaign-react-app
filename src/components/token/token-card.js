@@ -10,31 +10,64 @@ import {
   TextField,
   Button,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 import { Clock as ClockIcon } from "../../icons/clock";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import Link from "next/link";
-import React, { useState } from "react";
-
-export const TokenCard = ({ token, tokenSummary, accounts, ...rest }) => {
-  console.log("token", token);
+import React, { useState, useEffect } from "react";
+import TokenContract from "src/eth/scripts/token";
+import { useRouter } from "next/router";
+export const TokenCard = (props) => {
+  const router = useRouter();
+  const { tokenSummary, accounts } = props;
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [ownerBalance, setOwnerBalance] = useState(0);
+  const [sellerBalance, setSellerBalance] = useState(0);
+
   const [values, setValues] = useState({
     transferAmount: "0",
   });
+
+  useEffect(() => {
+    (async () => {
+      const token = TokenContract(router.query.showtoken);
+      setToken(token);
+      setOwnerBalance(await token.methods.balanceOf(tokenSummary.tokenOwner).call());
+      if (!tokenSummary.sellerContract.includes("0X00")) {
+        setSellerBalance(await token.methods.balanceOf(tokenSummary.sellerContract).call());
+      }
+    })();
+  }, [tokenSummary]);
   const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
     });
   };
+  function showMessage(message) {
+    setMessage(message);
+    setTimeout(() => {
+      setMessage("");
+    }, 10000);
+  }
+
   const onTransferSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await token.methods.transfer(tokenSummary.sellerContract, values.transferAmount).send({
-      from: accounts[0],
-    });
-    setLoading(false);
+    try {
+      await token.methods.transfer(tokenSummary.sellerContract, values.transferAmount).send({
+        from: accounts[0],
+      });
+      setOwnerBalance(await token.methods.balanceOf(tokenSummary.tokenOwner).call());
+      setSellerBalance(await token.methods.balanceOf(tokenSummary.sellerContract).call());
+      showMessage("success");
+      setLoading(false);
+    } catch (error) {
+      showMessage(error.message);
+    }
   };
   return (
     <Card
@@ -43,8 +76,10 @@ export const TokenCard = ({ token, tokenSummary, accounts, ...rest }) => {
         flexDirection: "column",
         height: "100%",
       }}
-      {...rest}
     >
+      {message ? (
+        <Alert style={{ position: "fixed", zIndex: "10", width: "100%" }}>{message} </Alert>
+      ) : null}
       <CardContent>
         <Box
           sx={{
@@ -76,12 +111,18 @@ export const TokenCard = ({ token, tokenSummary, accounts, ...rest }) => {
           <Link
             href={{
               pathname: "/sellercontract/[showsellercontract]",
-              query: { showsellercontract: tokenSummary.sellerContract },
+              query: {
+                showsellercontract: tokenSummary.sellerContract,
+                totalSupply: tokenSummary.totalSupply,
+                onSale: sellerBalance,
+              },
             }}
             passHref
           >
             <Typography align="center" color="crimson" gutterBottom variant="h5">
               {tokenSummary.sellerContract}
+              <br />
+              {sellerBalance}
             </Typography>
           </Link>
           <Box
@@ -101,7 +142,7 @@ export const TokenCard = ({ token, tokenSummary, accounts, ...rest }) => {
               variant="outlined"
             />
             <Button
-              disabled={loading}
+              disabled={loading || !token}
               type="submit"
               onClick={onTransferSubmit}
               color="primary"
@@ -124,7 +165,9 @@ export const TokenCard = ({ token, tokenSummary, accounts, ...rest }) => {
           >
             <ClockIcon color="action" />
             <Typography color="textSecondary" display="inline" sx={{ pl: 1 }} variant="body1">
-              {tokenSummary.tokenSummaryOwner} Owner
+              Owner: {tokenSummary.tokenOwner}
+              <br></br>
+              Balance: {ownerBalance}
             </Typography>
           </Grid>
           <Grid

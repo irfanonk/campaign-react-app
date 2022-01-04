@@ -146,7 +146,7 @@ export const DashboardSidebar = (props) => {
           ))}
         </Box>
         <Divider sx={{ borderColor: "#2D3748" }} />
-        <Box
+        {/* <Box
           sx={{
             px: 2,
             py: 3,
@@ -183,7 +183,7 @@ export const DashboardSidebar = (props) => {
               Live
             </Button>
           </NextLink>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

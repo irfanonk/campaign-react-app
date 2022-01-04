@@ -20,9 +20,8 @@ import SellTokenContract from "src/eth/scripts/sellToken";
 import web3 from "src/eth/scripts/web3";
 function ShowSellerContract(props) {
   const router = useRouter();
-
-  // const { admin, tokenPrice, tokensSold } = props.sellerContractData;
-  // const { sellToken } = props;
+  const { totalSupply, onSale } = router.query;
+  console.log("router", router);
 
   const [sellToken, setSellToken] = useState(null);
   const [sellerContractData, setSellerContractData] = useState({});
@@ -48,6 +47,7 @@ function ShowSellerContract(props) {
     const summary = await sellToken.methods.getSummary().call();
     const sellerContractData = {
       tokenPrice: summary[0],
+      tokenPriceEth: web3.utils.fromWei(`${summary[0]}`, "ether"),
       tokensSold: summary[1],
       admin: summary[2],
     };
@@ -64,16 +64,20 @@ function ShowSellerContract(props) {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
+      toPay: sellerContractData.tokenPriceEth * event.target.value,
     });
   };
 
   const onBuySubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log("val", values.buyAmount);
+
+    let valueToBuy = values.buyAmount * sellerContractData.tokenPrice + "";
+    console.log("val", values.buyAmount, valueToBuy);
     try {
       await sellToken.methods.buyTokens(values.buyAmount).send({
         from: accounts[0],
+        value: valueToBuy,
       });
       let address = router.query.showsellercontract;
       getContractData(address);
@@ -119,14 +123,19 @@ function ShowSellerContract(props) {
                     Admin:{sellerContractData.admin}
                   </Typography>
                   <Typography color="textPrimary" variant="h4">
-                    Price:{" "}
-                    {sellerContractData.tokenPrice
-                      ? web3.utils.fromWei(`${sellerContractData.tokenPrice}`, "ether")
-                      : ""}{" "}
+                    Price: {sellerContractData.tokenPriceEth}
                     eth
                   </Typography>
                 </Grid>
-                <Grid item>Sold: {sellerContractData.tokensSold}</Grid>
+                <Grid item>
+                  Total: {totalSupply}
+                  <br />
+                  On Sale: {onSale}
+                  <br />
+                  Sold: {sellerContractData.tokensSold}
+                  <br />
+                  Remains: {onSale - sellerContractData.tokensSold}
+                </Grid>
               </Grid>
               <Box
                 sx={{
@@ -165,8 +174,12 @@ function ShowSellerContract(props) {
                   type="number"
                   variant="outlined"
                 />
+                <Typography color="textSecondary" variant="caption">
+                  To Pay: {values.toPay} eth
+                </Typography>
+
                 <Button
-                  disabled={loading}
+                  disabled={loading || !sellToken}
                   type="submit"
                   onClick={onBuySubmit}
                   color="primary"

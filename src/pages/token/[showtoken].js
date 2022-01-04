@@ -24,8 +24,6 @@ import web3 from "src/eth/scripts/web3";
 import SellTokenBuild from "src/eth/build/SellToken";
 function ShowToken(props) {
   const router = useRouter();
-  console.log("router", router);
-
   const { token, tokenSummary } = props;
   const [tokenAsWei, setTokenAsWei] = useState("0");
   const [accounts, setAccounts] = useState(null);
@@ -70,10 +68,13 @@ function ShowToken(props) {
         })
         .send({ gas: 1_000_000, from: accounts[0] });
       console.log("deployed", sellToken.options.address);
-
-      setLoadingSellToken(false);
+      showMessage("success");
+      setTimeout(() => {
+        router.reload();
+      }, 1000);
     } catch (error) {
       console.log("err", error);
+      showMessage(error.message);
       setLoadingSellToken(false);
       setOpenModal(false);
     }
@@ -153,7 +154,7 @@ function ShowToken(props) {
           </Modal>
         </Grid>
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          <TokenCard tokenSummary={tokenSummary} token={token} accounts={accounts} />
+          <TokenCard tokenSummary={tokenSummary} accounts={accounts} />
         </Grid>
         {props.tokenSummary.sellerContract.includes("0x00") ? null : (
           <Grid item lg={12} sm={12} xl={12} xs={12}>

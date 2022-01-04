@@ -8,7 +8,7 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   web3 = new Web3(window.ethereum);
 } else {
   // We are on the server *OR* the user is not running metamask
-  const provider = new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_INFURA_RINKEBY_URL);
+  const provider = new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_INFURA_ROBSTEN_URL);
   web3 = new Web3(provider);
 }
 export default web3;
