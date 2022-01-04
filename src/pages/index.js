@@ -31,14 +31,14 @@ function Dashboard(props) {
     })();
   }, [router.pathname]);
 
-  const onSubmit = async (e, minContribution) => {
+  const onSubmit = async (e, values) => {
     e.preventDefault();
     // console.log("min", minContribution);
+    const { name, description, minContribution } = values;
     setLoading(true);
-    let newCampaignAdd;
     try {
-      newCampaignAdd = await campaignFactory.methods
-        .createCampaign(minContribution)
+      await campaignFactory.methods
+        .createCampaign(name, description, minContribution)
         .send({
           from: accounts[0],
         })
@@ -68,7 +68,11 @@ function Dashboard(props) {
         <Container maxWidth={false}>
           <Grid container spacing={3}>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
-              <NewCampaign title="Create New Campaign" onSubmit={onSubmit} loading={loading} />
+              <NewCampaign
+                title="Create New Campaign"
+                onSubmit={onSubmit}
+                loading={loading || !accounts}
+              />
             </Grid>
             {deployedCampaigns?.map((campaign, i) => {
               return (
