@@ -67,6 +67,7 @@ export const TokenCard = (props) => {
       setLoading(false);
     } catch (error) {
       showMessage(error.message);
+      setLoading(false);
     }
   };
   return (

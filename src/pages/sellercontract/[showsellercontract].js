@@ -92,13 +92,19 @@ function ShowSellerContract(props) {
 
   const onEndSubmit = async (e) => {
     e.preventDefault();
-    console.log("end");
+    setLoading(true);
     try {
       await sellToken.methods.endSale().send({
         from: accounts[0],
       });
+      showMessage("success sale ended");
+      setTimeout(() => {
+        router.back();
+      }, 3000);
     } catch (error) {
       console.log("error", error);
+      showMessage(error.message);
+      setLoading(false);
     }
   };
 
@@ -133,8 +139,8 @@ function ShowSellerContract(props) {
                   On Sale: {onSale}
                   <br />
                   Sold: {sellerContractData.tokensSold}
-                  <br />
-                  Remains: {onSale - sellerContractData.tokensSold}
+                  {/* <br />
+                  Remains: {onSale - sellerContractData.tokensSold} */}
                 </Grid>
               </Grid>
               <Box
