@@ -26,6 +26,7 @@ function Dashboard(props) {
     (async () => {
       const accounts = await web3.eth.getAccounts();
       const deployedCampaigns = await campaignFactory.methods.getDeployedCampaign().call();
+      // console.log(accounts, deployedCampaigns);
       setAccounts(accounts);
       setDeployedCampaign(deployedCampaigns);
     })();
@@ -51,7 +52,7 @@ function Dashboard(props) {
       setLoading(false);
     }
   };
-  console.log(accounts, deployedCampaigns);
+
   return (
     <>
       <Head>
