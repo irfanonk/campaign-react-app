@@ -29,17 +29,26 @@ function Dashboard(props) {
       // console.log(accounts, deployedCampaigns);
       setAccounts(accounts);
       setDeployedCampaign(deployedCampaigns);
+
+      campaignFactory.events
+        .NewCampaign({})
+        .on("data", newCampaignEvent)
+        .on("error", (error) => console.log("evnt err", error));
     })();
   }, [router.pathname]);
 
-  const onSubmit = async (e, minContribution) => {
+  function newCampaignEvent(e) {
+    const { _name, _description, _minumum, _owner } = e.returnValues;
+    console.log("evt", name, _description, _minumum, _owner);
+  }
+  const onSubmit = async (e, values) => {
     e.preventDefault();
-    // console.log("min", minContribution);
+    // console.log("min", values);
+    const { name, description, minContribution } = values;
     setLoading(true);
-    let newCampaignAdd;
     try {
-      newCampaignAdd = await campaignFactory.methods
-        .createCampaign(minContribution)
+      await campaignFactory.methods
+        .createCampaign(name, description, minContribution)
         .send({
           from: accounts[0],
         })

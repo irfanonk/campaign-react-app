@@ -11,7 +11,7 @@ export const CampaignInfo = (props) => (
             {props.title}
           </Typography>
           <Typography color="textPrimary" variant="h4">
-            {props.a}
+            {props.a} {props.b ? "/ " + props.b : ""}
           </Typography>
         </Grid>
         <Grid item>

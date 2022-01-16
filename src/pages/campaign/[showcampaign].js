@@ -10,7 +10,7 @@ import { CreateRequest } from "src/components/dashboard/create-request";
 import { DisplayRequests } from "src/components/dashboard/display-requests";
 
 function ShowCampaign(props) {
-  console.log("props", props);
+  // console.log("props", props);
   const router = useRouter();
   const campaignAddress = router.query.showcampaign;
   const { accounts, requests, campaign, campaignData } = props;
@@ -20,29 +20,65 @@ function ShowCampaign(props) {
   const [loadingApprove, setLoadingApprove] = useState({ btnIdx: -1 });
 
   const [message, setMessage] = useState("");
+  const [event, setEvent] = useState("");
 
+  useEffect(() => {
+    //  campaign.events
+    //   .NewContribution({})
+    //   .on("data", newContributionEvent)
+    //   .on("error", (error) => console.log("evnt err", error));
+
+    let emitter = campaign.events
+      .allEvents({})
+      .on("data", allEvents)
+      .on("error", (error) => console.log("evnt err", error));
+
+    return () => {
+      window.removeEventListener(emitter);
+    };
+  }, [router]);
+
+  function allEvents(e) {
+    console.log("all", e, e.returnValues.length);
+    let eventName = e.event + " created";
+    let eventBody = JSON.stringify(e.returnValues);
+    setEvent(eventName + " " + eventBody);
+    setTimeout(() => {
+      setEvent("");
+    }, 30000);
+  }
+  function newContributionEvent(e) {
+    console.log("e", e);
+    const { _approver, _amount } = e.returnValues;
+    let event = _amount + " wei contributed to campaign by " + _approver;
+    setEvent(event);
+    setTimeout(() => {
+      setEvent("");
+    }, 30000);
+  }
   function showMessage(message) {
     setMessage(message);
     setTimeout(() => {
       setMessage("");
-    }, 10000);
+    }, 30000);
   }
-  const onContrSubmit = async (e, contribution) => {
+  const onContributionSubmit = async (e, values) => {
     e.preventDefault();
     // console.log("min", minContribution);
+    const { minContribution } = values;
     setLoading(true);
     try {
       await campaign.methods
         .contribute()
         .send({
           from: accounts[0],
-          value: contribution,
+          value: minContribution,
         })
         .then(async (tx) => {
           const summary = await campaign.methods.getSummary().call();
           // console.log("camp", summary);
-          props.campaignData.balance = summary[1];
-          props.campaignData.approversCount = summary[3];
+          props.campaignData.balance = summary[3];
+          props.campaignData.approversCount = summary[5];
           showMessage("success");
           setLoading(false);
         });
@@ -64,10 +100,10 @@ function ShowCampaign(props) {
         })
         .then(async (tx) => {
           const summary = await campaign.methods.getSummary().call();
-          props.campaignData.requestsCount = summary[2];
+          props.campaignData.requestsCount = summary[4];
 
           const allReqs = await Promise.all(
-            Array(+summary[2])
+            Array(+summary[4])
               .fill()
               .map((elm, index) => {
                 // console.log("i", index, campaign.methods);
@@ -134,10 +170,22 @@ function ShowCampaign(props) {
       {message ? (
         <Alert style={{ position: "fixed", zIndex: "10", width: "100%" }}>{message} </Alert>
       ) : null}
+      {event ? (
+        <Alert
+          color="warning"
+          style={{ position: "fixed", top: "30%", zIndex: "10", width: "100%" }}
+        >
+          {event}{" "}
+        </Alert>
+      ) : null}
       <Container maxWidth={false}>
         <Grid container spacing={1}>
           <Grid item xl={12} lg={12} sm={12} xs={12}>
-            <CampaignInfo title="Manager" a={campaignData.manager} />
+            <CampaignInfo
+              title={campaignData.manager}
+              a={campaignData.name}
+              b={campaignData.description}
+            />
           </Grid>
           <Grid item xl={12} lg={12} sm={12} xs={12}>
             <CreateRequest
@@ -160,7 +208,7 @@ function ShowCampaign(props) {
             <CampaignInfo title="Total Request" a={campaignData.requestsCount} />
           </Grid>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <ContrCampaign onSubmit={onContrSubmit} loading={loading} title="Contribute" />
+            <ContrCampaign onSubmit={onContributionSubmit} loading={loading} title="Contribute" />
           </Grid>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
             <DisplayRequests
@@ -183,10 +231,12 @@ ShowCampaign.getInitialProps = async (ctx) => {
   // console.log("ctx", ctx, ctx.query);
   const accounts = await web3.eth.getAccounts();
   const campaign = Campaign(ctx.query.showcampaign);
+  // console.log("ac", accounts, campaign.methods);
+
   const summary = await campaign.methods.getSummary().call();
-  // console.log("summary", summary);
+  // console.log("summ", summary);
   const requests = await Promise.all(
-    Array(+summary[2])
+    Array(+summary[4])
       .fill()
       .map((elm, index) => {
         // console.log("i", index, campaign.methods);
@@ -194,11 +244,13 @@ ShowCampaign.getInitialProps = async (ctx) => {
       })
   );
   const campaignData = {
-    minimunContribution: summary[0],
-    balance: summary[1],
-    requestsCount: summary[2],
-    approversCount: summary[3],
-    manager: summary[4],
+    name: summary[0],
+    description: summary[1],
+    minimunContribution: summary[2],
+    balance: summary[3],
+    requestsCount: summary[4],
+    approversCount: summary[5],
+    manager: summary[6],
   };
   return { accounts, campaignData, requests, campaign };
 };

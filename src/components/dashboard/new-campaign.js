@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -12,6 +12,8 @@ import {
 
 export const NewCampaign = (props) => {
   const [values, setValues] = useState({
+    name: "",
+    description: "",
     minContribution: "",
   });
 
@@ -23,13 +25,35 @@ export const NewCampaign = (props) => {
   };
 
   return (
-    <form onSubmit={(e) => props.onSubmit(e, values.minContribution)}>
+    <form onSubmit={(e) => props.onSubmit(e, values)}>
       <Card>
         <CardHeader subheader="Enter Min Contribution (wei)" title={props.title} />
         <Divider />
         <CardContent>
+          {props.title == "Create New Campaign" ? (
+            <React.Fragment>
+              <TextField
+                label="Name"
+                margin="normal"
+                name="name"
+                onChange={handleChange}
+                value={values.name}
+                type="text"
+                variant="outlined"
+              />
+              <TextField
+                label="Description"
+                margin="normal"
+                name="description"
+                onChange={handleChange}
+                value={values.description}
+                type="text"
+                variant="outlined"
+              />
+            </React.Fragment>
+          ) : null}
+
           <TextField
-            fullWidth
             label="Min Contribution"
             margin="normal"
             name="minContribution"
