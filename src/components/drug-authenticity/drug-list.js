@@ -6,7 +6,7 @@ import {
   Avatar,
   Box,
   Card,
-  Button,
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -14,11 +14,11 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  CardHeader,
 } from "@mui/material";
 import Link from "next/link";
 
-export const TokenList = ({ tokens }) => {
-  console.log("tokens", tokens);
+export const DrugList = ({ drugs, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -27,7 +27,7 @@ export const TokenList = ({ tokens }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = tokens.map((token) => token.id);
+      newSelectedCustomerIds = drugs.map((drug) => drug.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -64,26 +64,24 @@ export const TokenList = ({ tokens }) => {
   };
 
   return (
-    <Card>
+    <Card {...rest}>
+      <CardHeader title={"Drugs that registered to company"} />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Address</TableCell>
+                <TableCell>Code </TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Symbol</TableCell>
-                <TableCell>Owner</TableCell>
-                <TableCell>TotalSupply</TableCell>
-                <TableCell>On Sale</TableCell>
+                <TableCell>Produced By</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tokens.slice(0, limit).map((token) => (
+              {drugs.slice(0, limit).map((drug, i) => (
                 <TableRow
                   hover
-                  key={token.id}
-                  selected={selectedCustomerIds.indexOf(token.id) !== -1}
+                  key={drug.id}
+                  selected={selectedCustomerIds.indexOf(drug.id) !== -1}
                 >
                   <TableCell>
                     <Box
@@ -93,33 +91,12 @@ export const TokenList = ({ tokens }) => {
                       }}
                     >
                       <Typography color="textPrimary" variant="body1">
-                        <Link
-                          href={{
-                            pathname: "/token/[showtoken]",
-                            query: { showtoken: token.address },
-                          }}
-                          passHref
-                        >
-                          {token.address}
-                        </Link>
+                        {drug.drugCode}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{token.name} </TableCell>
-                  <TableCell>{token.symbol} </TableCell>
-                  <TableCell>{token.tokenOwner} </TableCell>
-                  <TableCell>{token.totalSupply} </TableCell>
-                  <TableCell>
-                    {parseInt(token.sellerContract, 16) == 0 ? (
-                      <Button color="warning" variant="outlined">
-                        No
-                      </Button>
-                    ) : (
-                      <Button color="success" variant="outlined">
-                        Yes
-                      </Button>
-                    )}{" "}
-                  </TableCell>
+                  <TableCell>{drug.drugName}</TableCell>
+                  <TableCell>{drug.producedBy}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -128,7 +105,7 @@ export const TokenList = ({ tokens }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={tokens.length}
+        count={drugs.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -139,6 +116,6 @@ export const TokenList = ({ tokens }) => {
   );
 };
 
-TokenList.propTypes = {
-  tokens: PropTypes.array.isRequired,
+DrugList.propTypes = {
+  drugs: PropTypes.array.isRequired,
 };

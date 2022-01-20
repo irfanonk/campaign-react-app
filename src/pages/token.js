@@ -19,11 +19,29 @@ const Token = (props) => {
   useEffect(() => {
     (async () => {
       const currentAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      const deployedTokens = await tokenFactory.methods.getDeployedToken().call();
+      const deployedTokensAddresses = await tokenFactory.methods.getDeployedToken().call();
+      let tokens = [];
+      deployedTokensAddresses.forEach(async (address, i) => {
+        let token = TokenContract(address);
+        let summaryToken = await token.methods.getSummary().call();
+        let tokenSummary = {
+          address: address,
+          name: summaryToken[0],
+          symbol: summaryToken[1],
+          standart: summaryToken[2],
+          totalSupply: summaryToken[3],
+          tokenOwner: summaryToken[4],
+          sellerContract: summaryToken[5],
+        };
+        tokens.push(tokenSummary);
+        if (deployedTokensAddresses.length == tokens.length) {
+          console.log("completed");
+          setDeployedTokens(tokens);
+          console.log("deployed", tokens, deployedTokens);
+        }
+      });
+
       setAccounts(currentAccounts);
-      setDeployedTokens(deployedTokens);
-      console.log("acc", currentAccounts, deployedTokens);
-      console.log("mthds", tokenFactory.methods);
     })();
 
     return () => {};

@@ -36,7 +36,7 @@ export const TokenCard = (props) => {
       const token = TokenContract(router.query.showtoken);
       setToken(token);
       setOwnerBalance(await token.methods.balanceOf(tokenSummary.tokenOwner).call());
-      if (!tokenSummary.sellerContract.includes("0X00")) {
+      if (parseInt(tokenSummary.sellerContract, 16) != 0) {
         setSellerBalance(await token.methods.balanceOf(tokenSummary.sellerContract).call());
       }
     })();
@@ -103,7 +103,7 @@ export const TokenCard = (props) => {
       <Box sx={{ flexGrow: 1 }} />
       <Divider />
       Sellers
-      {tokenSummary.sellerContract.includes("0x00") ? (
+      {parseInt(tokenSummary.sellerContract, 16) == 0 ? (
         <Typography align="center" color="crimson" gutterBottom variant="h5">
           Not Selling Yet
         </Typography>

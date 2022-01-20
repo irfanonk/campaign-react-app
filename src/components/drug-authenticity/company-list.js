@@ -6,7 +6,7 @@ import {
   Avatar,
   Box,
   Card,
-  Button,
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -17,8 +17,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-export const TokenList = ({ tokens }) => {
-  console.log("tokens", tokens);
+export const CompanyList = ({ companies, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -27,7 +26,7 @@ export const TokenList = ({ tokens }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = tokens.map((token) => token.id);
+      newSelectedCustomerIds = companies.map((company) => company.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -64,63 +63,64 @@ export const TokenList = ({ tokens }) => {
   };
 
   return (
-    <Card>
+    <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={selectedCustomerIds.length === companies.length}
+                    color="primary"
+                    indeterminate={
+                      selectedCustomerIds.length > 0 &&
+                      selectedCustomerIds.length < companies.length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </TableCell>
                 <TableCell>Address</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Symbol</TableCell>
-                <TableCell>Owner</TableCell>
-                <TableCell>TotalSupply</TableCell>
-                <TableCell>On Sale</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tokens.slice(0, limit).map((token) => (
-                <TableRow
-                  hover
-                  key={token.id}
-                  selected={selectedCustomerIds.indexOf(token.id) !== -1}
+              {companies.slice(0, limit).map((company, i) => (
+                <Link
+                  key={i}
+                  href={{
+                    pathname: "/drug-company/[showcompany]",
+                    query: { showcompany: company.address, companyname: company.name },
+                  }}
+                  passHref
                 >
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Typography color="textPrimary" variant="body1">
-                        <Link
-                          href={{
-                            pathname: "/token/[showtoken]",
-                            query: { showtoken: token.address },
-                          }}
-                          passHref
-                        >
-                          {token.address}
-                        </Link>
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>{token.name} </TableCell>
-                  <TableCell>{token.symbol} </TableCell>
-                  <TableCell>{token.tokenOwner} </TableCell>
-                  <TableCell>{token.totalSupply} </TableCell>
-                  <TableCell>
-                    {parseInt(token.sellerContract, 16) == 0 ? (
-                      <Button color="warning" variant="outlined">
-                        No
-                      </Button>
-                    ) : (
-                      <Button color="success" variant="outlined">
-                        Yes
-                      </Button>
-                    )}{" "}
-                  </TableCell>
-                </TableRow>
+                  <TableRow
+                    hover
+                    key={company.id}
+                    selected={selectedCustomerIds.indexOf(company.id) !== -1}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selectedCustomerIds.indexOf(company.id) !== -1}
+                        onChange={(event) => handleSelectOne(event, company.id)}
+                        value="true"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        <Typography color="textPrimary" variant="body1">
+                          {company.address}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>{company.name}</TableCell>
+                  </TableRow>
+                </Link>
               ))}
             </TableBody>
           </Table>
@@ -128,7 +128,7 @@ export const TokenList = ({ tokens }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={tokens.length}
+        count={companies.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -139,6 +139,6 @@ export const TokenList = ({ tokens }) => {
   );
 };
 
-TokenList.propTypes = {
-  tokens: PropTypes.array.isRequired,
+CompanyList.propTypes = {
+  companies: PropTypes.array.isRequired,
 };

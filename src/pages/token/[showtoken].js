@@ -92,13 +92,13 @@ function ShowToken(props) {
       ) : null}
       <Container maxWidth={false}>
         <Grid item lg={12} sm={12} xl={12} xs={12}>
-          {props.tokenSummary.sellerContract.includes("0x00") ? (
+          {parseInt(props.tokenSummary.sellerContract, 16) == 0 ? (
             <Button
               onClick={() => setOpenModal(!openModal)}
               type="submit"
               color="primary"
               variant="contained"
-              disabled={!props.tokenSummary.sellerContract.includes("0x00")}
+              disabled={!parseInt(props.tokenSummary.sellerContract, 16) == 0}
             >
               Sell Token
             </Button>
@@ -156,7 +156,7 @@ function ShowToken(props) {
         <Grid item lg={12} sm={12} xl={12} xs={12}>
           <TokenCard tokenSummary={tokenSummary} accounts={accounts} />
         </Grid>
-        {props.tokenSummary.sellerContract.includes("0x00") ? null : (
+        {parseInt(props.tokenSummary.sellerContract, 16) == 0 ? null : (
           <Grid item lg={12} sm={12} xl={12} xs={12}>
             {/* <TokenCard token={tokenSummary} /> */}
           </Grid>
@@ -191,17 +191,6 @@ ShowToken.getInitialProps = async (ctx) => {
     tokenOwner: summaryToken[4],
     sellerContract: summaryToken[5],
   };
-
-  // let sellerContractData;
-  // if (!summaryToken[5].includes("0x00")) {
-  //   const sellToken = SellTokenContract(summaryToken[5]);
-  //   const summarySellToken = await sellToken.methods.getSummary().call();
-  //   sellerContractData = {
-  //     tokenPrice: summarySellToken[0],
-  //     tokensSold: summarySellToken[1],
-  //     admin: summarySellToken[2],
-  //   };
-  // }
 
   console.log("tokenSummary", tokenSummary);
   return { token, tokenSummary };

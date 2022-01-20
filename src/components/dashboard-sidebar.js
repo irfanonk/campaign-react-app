@@ -27,6 +27,11 @@ const items = [
     icon: <UsersIcon fontSize="small" />,
     title: "Token",
   },
+  {
+    href: "/drug-authenticity",
+    icon: <CogIcon fontSize="small" />,
+    title: "Drug Authenticity",
+  },
   // {
   //   href: "/products",
   //   icon: <ShoppingBagIcon fontSize="small" />,
