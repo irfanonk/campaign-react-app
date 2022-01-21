@@ -23,7 +23,7 @@ export const DashboardLayout = (props) => {
     if (ethereum) {
       console.log("eth");
       console.log(ethereum);
-      let chainId = ethereum.chainId || ethereum.getChainId();
+      let chainId = ethereum.chainId;
       let chainName =
         chainId == "0x1"
           ? "Mainnet"
@@ -32,8 +32,8 @@ export const DashboardLayout = (props) => {
           : chainId == "0x4"
           ? "Rinkeby"
           : "Other";
-      let isMetamask = ethereum.isMetamask || false;
-      let address = ethereum.selectedAddress || ethereum._addresses;
+      let isMetamask = ethereum.isMetamask;
+      let address = ethereum.selectedAddress;
 
       // console.log(chainId, isMetamask, address);
       ethereum.on("accountsChanged", (accounts) => {
