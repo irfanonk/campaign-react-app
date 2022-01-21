@@ -7,10 +7,10 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
 
   window.ethereum.request({ method: "eth_requestAccounts" });
   web3 = new Web3(window.ethereum);
-  console.log("ethereum");
+  // console.log("ethereum");
 } else {
   // We are on the server *OR* the user is not running metamask
-  console.log("no ethereum");
+  // console.log("no ethereum");
   const provider = new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_INFURA_ROBSTEN_URL);
   web3 = new Web3(provider);
 }
