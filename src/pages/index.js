@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Box, Container, Grid } from "@mui/material";
-import { Budget } from "../components/dashboard/budget";
+import { CampaignCard } from "../components/dashboard/campaign-card";
 import { LatestOrders } from "../components/dashboard/latest-orders";
 import { LatestProducts } from "../components/dashboard/latest-products";
 import { Sales } from "../components/dashboard/sales";
@@ -15,6 +15,8 @@ import React, { useState, useEffect, Fragment } from "react";
 import web3 from "src/eth/scripts/web3";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Campaign from "src/eth/scripts/campaign";
+
 function Dashboard(props) {
   // console.log("props", props);
   const router = useRouter();
@@ -25,17 +27,38 @@ function Dashboard(props) {
   useEffect(() => {
     (async () => {
       const accounts = await web3.eth.getAccounts();
-      const deployedCampaigns = await campaignFactory.methods.getDeployedCampaign().call();
-      // console.log(accounts, deployedCampaigns);
+      const deployedCampaignAddress = await campaignFactory.methods.getDeployedCampaign().call();
+
+      let campaigns = [];
+      deployedCampaignAddress.forEach(async (address, i) => {
+        const campaign = Campaign(address);
+
+        let summary = await campaign.methods.getSummary().call();
+        let campaignData = {
+          id: i,
+          address: address,
+          name: summary[0],
+          description: summary[1],
+          minimunContribution: summary[2],
+          balance: summary[3],
+          requestsCount: summary[4],
+          approversCount: summary[5],
+          manager: summary[6],
+        };
+        campaigns.push(campaignData);
+        if (deployedCampaignAddress.length == campaigns.length) {
+          console.log("completed");
+          setDeployedCampaign(campaigns);
+        }
+      });
       setAccounts(accounts);
-      setDeployedCampaign(deployedCampaigns);
 
       campaignFactory.events
         .NewCampaign({})
         .on("data", newCampaignEvent)
         .on("error", (error) => console.log("evnt err", error));
     })();
-  }, [router.pathname]);
+  }, [router]);
 
   function newCampaignEvent(e) {
     const { _name, _description, _minumum, _owner } = e.returnValues;
@@ -87,11 +110,11 @@ function Dashboard(props) {
                     <Link
                       href={{
                         pathname: "/campaign/[showcampaign]",
-                        query: { showcampaign: campaign },
+                        query: { showcampaign: campaign.address },
                       }}
                       passHref
                     >
-                      <Budget campaign={campaign} i={i + 1} />
+                      <CampaignCard campaign={campaign} i={i + 1} />
                     </Link>
                   </Grid>
                 </React.Fragment>

@@ -33,9 +33,7 @@ function ShowCampaign(props) {
       .on("data", allEvents)
       .on("error", (error) => console.log("evnt err", error));
 
-    return () => {
-      window.removeEventListener(emitter);
-    };
+    return () => {};
   }, [router]);
 
   function allEvents(e) {
