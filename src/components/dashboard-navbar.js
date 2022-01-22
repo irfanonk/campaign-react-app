@@ -76,7 +76,7 @@ export const DashboardNavbar = (props) => {
               <Typography color="inherit" variant="subtitle1">
                 {chainName}
                 <br />
-                {chainName && chainName != "Ropsten" ? "switch to robsten" : ""}
+                {chainName && chainName != "Ropsten" ? "Switch to Robsten" : ""}
               </Typography>
             </IconButton>
           </Tooltip>
