@@ -14,7 +14,7 @@ import { TokenList } from "src/components/token/token-list";
 const Token = (props) => {
   // console.log("props", props);
   const [loading, setLoading] = useState(false);
-  const [deployedTokens, setDeployedTokens] = useState(null);
+  const [deployedTokens, setDeployedTokens] = useState([]);
   const [accounts, setAccounts] = useState([]);
   useEffect(() => {
     (async () => {
@@ -52,7 +52,6 @@ const Token = (props) => {
 
     const { name, symbol, standart, initialSupply } = values;
 
-    setLoading(false);
     try {
       await tokenFactory.methods
         .createToken(name, symbol, standart, initialSupply)

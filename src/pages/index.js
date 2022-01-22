@@ -22,7 +22,7 @@ function Dashboard(props) {
   const router = useRouter();
   // console.log("loc", props, router);
   const [accounts, setAccounts] = useState(null);
-  const [deployedCampaigns, setDeployedCampaign] = useState(null);
+  const [deployedCampaigns, setDeployedCampaign] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     (async () => {

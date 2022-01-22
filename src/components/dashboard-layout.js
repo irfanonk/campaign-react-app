@@ -47,8 +47,8 @@ export const DashboardLayout = (props) => {
       ethereum.on("chainChanged", (chainId) => {
         window.location.reload();
       });
-
-      setAccountData({ chainName, isMetamask, address });
+      let data = { chainName, isMetamask, address };
+      setAccountData(data);
       console.log("account data", accountData);
     }
   }, []);
