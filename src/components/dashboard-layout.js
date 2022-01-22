@@ -17,6 +17,7 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 
 export const DashboardLayout = (props) => {
   const router = useRouter();
+  // console.log("router", router);
   const { children } = props;
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [accountData, setAccountData] = useState({
@@ -26,33 +27,35 @@ export const DashboardLayout = (props) => {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined" && ethereum) {
-      console.log("eth", ethereum);
-      let chainId = ethereum.chainId;
-      let chainName =
-        chainId == "0x1"
-          ? "Mainnet"
-          : chainId == "0x3"
-          ? "Ropsten"
-          : chainId == "0x4"
-          ? "Rinkeby"
-          : "Other";
-      let isMetamask = ethereum.isMetamask;
-      let address = ethereum.selectedAddress;
+    (async () => {
+      if (typeof window !== "undefined" && typeof ethereum !== "undefined") {
+        console.log("eth", ethereum);
+        let chainId = await ethereum.chainId;
+        let chainName =
+          chainId == "0x1"
+            ? "Mainnet"
+            : chainId == "0x3"
+            ? "Ropsten"
+            : chainId == "0x4"
+            ? "Rinkeby"
+            : "Other";
+        let isMetamask = await ethereum.isMetamask;
+        let address = await ethereum.selectedAddress;
 
-      console.log(chainId, isMetamask, address);
-      ethereum.on("accountsChanged", (accounts) => {
-        window.location.reload();
-      });
+        console.log(chainId, isMetamask, address);
+        ethereum.on("accountsChanged", (accounts) => {
+          window.location.reload();
+        });
 
-      ethereum.on("chainChanged", (chainId) => {
-        window.location.reload();
-      });
-      let data = { chainName, isMetamask, address };
-      setAccountData(data);
-      console.log("account data", data, accountData);
-    }
-  }, [router]);
+        ethereum.on("chainChanged", (chainId) => {
+          window.location.reload();
+        });
+        let data = { chainName, isMetamask, address };
+        setAccountData(data);
+        console.log("account data", data, accountData);
+      }
+    })();
+  }, [router.pathname]);
 
   return (
     <>
