@@ -46,7 +46,7 @@ function Dashboard(props) {
         };
         campaigns.push(campaignData);
         if (deployedCampaignAddress.length == campaigns.length) {
-          console.log("completed");
+          // console.log("completed");
           setDeployedCampaign(campaigns);
         }
       });

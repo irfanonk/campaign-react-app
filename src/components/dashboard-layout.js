@@ -49,7 +49,7 @@ export const DashboardLayout = (props) => {
       });
       let data = { chainName, isMetamask, address };
       setAccountData(data);
-      console.log("account data", accountData);
+      console.log("account data", data, accountData);
     }
   }, []);
 
