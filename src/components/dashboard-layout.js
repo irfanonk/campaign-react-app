@@ -20,7 +20,7 @@ export const DashboardLayout = (props) => {
   const [accountData, setAccountData] = useState({});
 
   useEffect(() => {
-    if (ethereum) {
+    if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
       console.log("eth");
       console.log(ethereum);
       let chainId = ethereum.chainId;
