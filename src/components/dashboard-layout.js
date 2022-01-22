@@ -24,9 +24,8 @@ export const DashboardLayout = (props) => {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
-      console.log("eth");
-      // console.log(ethereum);
+    if (typeof window !== "undefined" && ethereum) {
+      console.log("eth", ethereum);
       let chainId = ethereum.chainId;
       let chainName =
         chainId == "0x1"
@@ -39,7 +38,7 @@ export const DashboardLayout = (props) => {
       let isMetamask = ethereum.isMetamask;
       let address = ethereum.selectedAddress;
 
-      // console.log(chainId, isMetamask, address);
+      console.log(chainId, isMetamask, address);
       ethereum.on("accountsChanged", (accounts) => {
         window.location.reload();
       });

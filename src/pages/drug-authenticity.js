@@ -21,7 +21,7 @@ const DrugAuthenticity = (props) => {
   const [message, setMessage] = useState("");
   useEffect(() => {
     (async () => {
-      console.log("drg", drugAuthenticity.methods);
+      // console.log("drg", drugAuthenticity.methods);
       const currentAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       const drugCompanyAddresses = await drugAuthenticity.methods.getCompanies().call();
       setAccounts(currentAccounts);
@@ -29,11 +29,11 @@ const DrugAuthenticity = (props) => {
       drugCompanyAddresses.forEach(async (address, i) => {
         let companyName = await drugAuthenticity.methods.companies(address).call();
         companies = [...companies, { id: i, address: address, name: companyName }];
-        console.log("companies", companies);
+        // console.log("companies", companies);
         setDrugCompanies(companies);
       });
 
-      console.log("acc", currentAccounts);
+      // console.log("acc", currentAccounts);
     })();
 
     return () => {};

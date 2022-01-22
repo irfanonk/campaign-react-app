@@ -35,9 +35,9 @@ const Token = (props) => {
         };
         tokens.push(tokenSummary);
         if (deployedTokensAddresses.length == tokens.length) {
-          console.log("completed");
+          // console.log("completed");
           setDeployedTokens(tokens);
-          console.log("deployed", tokens, deployedTokens);
+          // console.log("deployed", tokens, deployedTokens);
         }
       });
 
