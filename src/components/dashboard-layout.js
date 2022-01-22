@@ -17,37 +17,41 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 export const DashboardLayout = (props) => {
   const { children } = props;
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [accountData, setAccountData] = useState({});
+  const [accountData, setAccountData] = useState({
+    chainName: "Empty",
+    isMetamask: true,
+    address: "Empty",
+  });
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
-      console.log("eth");
-      console.log(ethereum);
-      let chainId = ethereum.chainId;
-      let chainName =
-        chainId == "0x1"
-          ? "Mainnet"
-          : chainId == "0x3"
-          ? "Ropsten"
-          : chainId == "0x4"
-          ? "Rinkeby"
-          : "Other";
-      let isMetamask = ethereum.isMetamask;
-      let address = ethereum.selectedAddress;
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
+  //     console.log("eth");
+  //     // console.log(ethereum);
+  //     let chainId = ethereum.chainId;
+  //     let chainName =
+  //       chainId == "0x1"
+  //         ? "Mainnet"
+  //         : chainId == "0x3"
+  //         ? "Ropsten"
+  //         : chainId == "0x4"
+  //         ? "Rinkeby"
+  //         : "Other";
+  //     let isMetamask = ethereum.isMetamask;
+  //     let address = ethereum.selectedAddress;
 
-      // console.log(chainId, isMetamask, address);
-      ethereum.on("accountsChanged", (accounts) => {
-        window.location.reload();
-      });
+  //     // console.log(chainId, isMetamask, address);
+  //     ethereum.on("accountsChanged", (accounts) => {
+  //       window.location.reload();
+  //     });
 
-      ethereum.on("chainChanged", (chainId) => {
-        window.location.reload();
-      });
+  //     ethereum.on("chainChanged", (chainId) => {
+  //       window.location.reload();
+  //     });
 
-      setAccountData({ chainName, isMetamask, address });
-      console.log("account data", accountData);
-    }
-  }, []);
+  //     setAccountData({ chainName, isMetamask, address });
+  //     console.log("account data", accountData);
+  //   }
+  // }, []);
 
   return (
     <>
