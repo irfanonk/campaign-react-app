@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DashboardNavbar } from "./dashboard-navbar";
 import { DashboardSidebar } from "./dashboard-sidebar";
+import { useRouter } from "next/router";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -15,6 +16,7 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 }));
 
 export const DashboardLayout = (props) => {
+  const router = useRouter();
   const { children } = props;
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [accountData, setAccountData] = useState({
@@ -50,7 +52,7 @@ export const DashboardLayout = (props) => {
       setAccountData(data);
       console.log("account data", data, accountData);
     }
-  }, []);
+  }, [router]);
 
   return (
     <>
