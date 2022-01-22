@@ -79,7 +79,7 @@ export const TokenList = ({ tokens }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tokens.slice(0, limit).map((token) => (
+              {tokens?.slice(0, limit).map((token) => (
                 <TableRow
                   hover
                   key={token.id}
@@ -128,7 +128,7 @@ export const TokenList = ({ tokens }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={tokens.length}
+        count={tokens?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

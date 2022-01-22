@@ -14,7 +14,7 @@ import { TokenList } from "src/components/token/token-list";
 const Token = (props) => {
   // console.log("props", props);
   const [loading, setLoading] = useState(false);
-  const [deployedTokens, setDeployedTokens] = useState([]);
+  const [deployedTokens, setDeployedTokens] = useState(null);
   const [accounts, setAccounts] = useState([]);
   useEffect(() => {
     (async () => {
@@ -49,10 +49,10 @@ const Token = (props) => {
   const onSubmit = async (e, values) => {
     e.preventDefault();
     setLoading(true);
-    console.log("acc", accounts);
 
     const { name, symbol, standart, initialSupply } = values;
-    console.log("vales", name, symbol, standart, initialSupply);
+
+    setLoading(false);
     try {
       await tokenFactory.methods
         .createToken(name, symbol, standart, initialSupply)
@@ -60,8 +60,17 @@ const Token = (props) => {
           from: accounts[0],
         })
         .then(async (tx) => {
-          const deployedTokens = await tokenFactory.methods.getDeployedToken().call();
-          setDeployedTokens(deployedTokens);
+          let deployedTokensAddresses = await tokenFactory.methods.getDeployedToken().call();
+          let newTokenData = {
+            address: deployedTokensAddresses[deployedTokensAddresses.length - 1],
+            name: name,
+            symbol: symbol,
+            standart: standart,
+            totalSupply: initialSupply,
+            tokenOwner: accounts[0],
+            sellerContract: "0x00000000000000",
+          };
+          setDeployedTokens([...deployedTokens, newTokenData]);
           setLoading(false);
         });
     } catch (error) {

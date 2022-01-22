@@ -35,7 +35,6 @@ function Dashboard(props) {
 
         let summary = await campaign.methods.getSummary().call();
         let campaignData = {
-          id: i,
           address: address,
           name: summary[0],
           description: summary[1],
@@ -62,13 +61,14 @@ function Dashboard(props) {
 
   function newCampaignEvent(e) {
     const { _name, _description, _minumum, _owner } = e.returnValues;
-    console.log("evt", name, _description, _minumum, _owner);
+    console.log("evt", _name, _description, _minumum, _owner);
   }
   const onSubmit = async (e, values) => {
     e.preventDefault();
     // console.log("min", values);
     const { name, description, minContribution } = values;
     setLoading(true);
+
     try {
       await campaignFactory.methods
         .createCampaign(name, description, minContribution)
@@ -76,7 +76,18 @@ function Dashboard(props) {
           from: accounts[0],
         })
         .then(async (tx) => {
-          setDeployedCampaign(await campaignFactory.methods.getDeployedCampaign().call());
+          let deployedCampaignAddress = await campaignFactory.methods.getDeployedCampaign().call();
+          let newCampaignData = {
+            address: deployedCampaignAddress[deployedCampaignAddress.length - 1],
+            name: name,
+            description: description,
+            minimunContribution: minContribution,
+            balance: 0,
+            requestsCount: 0,
+            approversCount: 0,
+            manager: accounts[0],
+          };
+          setDeployedCampaign([newCampaignData, ...deployedCampaigns]);
           setLoading(false);
         });
     } catch (error) {

@@ -21,7 +21,7 @@ export const CampaignCard = ({ campaign, ...rest }) => (
       >
         <Avatar
           alt="campaign"
-          src={`/static/images/products/product_${campaign.id + 1}.png`}
+          src={`/static/images/products/product_${Math.floor(Math.random() * 6) + 1}.png`}
           variant="square"
         />
       </Box>
