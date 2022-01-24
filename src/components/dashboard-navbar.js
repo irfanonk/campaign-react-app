@@ -64,7 +64,7 @@ export const DashboardNavbar = (props) => {
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Address">
+          {/* <Tooltip title="Address">
             <IconButton sx={{ ml: 1 }}>
               <Typography color="inherit" variant="subtitle1">
                 {address}
@@ -79,7 +79,7 @@ export const DashboardNavbar = (props) => {
                 {chainName && chainName != "Ropsten" ? "Switch to Robsten" : ""}
               </Typography>
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
           <Avatar
             sx={{
               height: 40,
