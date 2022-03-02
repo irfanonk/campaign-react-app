@@ -32,6 +32,11 @@ const items = [
     icon: <CogIcon fontSize="small" />,
     title: "Drug Authenticity",
   },
+  {
+    href: "/wallet-requests",
+    icon: <XCircleIcon fontSize="small" />,
+    title: "Wallet Requests",
+  },
   // {
   //   href: "/products",
   //   icon: <ShoppingBagIcon fontSize="small" />,
@@ -123,11 +128,9 @@ export const DashboardSidebar = (props) => {
             >
               <div>
                 <Typography color="inherit" variant="subtitle1">
-                  irfan
+                  irfan önk
                 </Typography>
-                <Typography color="neutral.400" variant="body2">
-                  Your tier : Premium
-                </Typography>
+                <Typography color="neutral.400" variant="body2"></Typography>
               </div>
               <SelectorIcon
                 sx={{

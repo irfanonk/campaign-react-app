@@ -15,6 +15,7 @@ function ShowCampaign(props) {
   const campaignAddress = router.query.showcampaign;
   // const { accounts, requests, campaign, campaignData } = props;
   const [accounts, setAccounts] = useState(null);
+  const [campaign, setCampaign] = useState(null);
   const [requests, setRequests] = useState(null);
   const [campaignData, setCampaignData] = useState(null);
   const [isLoaded, setIsloaded] = useState(false);
@@ -36,7 +37,8 @@ function ShowCampaign(props) {
         var accounts = await web3.eth.getAccounts();
         setAccounts(accounts);
         var campaign = Campaign(campaignAddress);
-        console.log("ac", accounts, campaign.methods);
+        setCampaign(campaign);
+        // console.log("ac", accounts, campaign.methods);
 
         var summary = await campaign.methods.getSummary().call();
         // console.log("summ", summary);

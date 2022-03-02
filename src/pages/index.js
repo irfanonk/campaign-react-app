@@ -21,6 +21,8 @@ function Dashboard(props) {
   // console.log("props", props);
   const router = useRouter();
   // console.log("loc", props, router);
+  const [data, setData] = useState([]);
+
   const [accounts, setAccounts] = useState(null);
   const [deployedCampaigns, setDeployedCampaign] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -95,7 +97,7 @@ function Dashboard(props) {
       setLoading(false);
     }
   };
-
+  console.log("data", data);
   return (
     <>
       <Head>
