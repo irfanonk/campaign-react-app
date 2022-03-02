@@ -1,97 +1,32 @@
-## [Campaign Dapp - React](https://material-kit-react.devias.io/) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=%F0%9F%9A%A8Devias%20Freebie%20Alert%20-%20An%20awesome%20ready-to-use%20register%20page%20made%20with%20%23material%20%23react%0D%0Ahttps%3A%2F%2Fdevias.io%20%23createreactapp%20%23devias%20%23material%20%23freebie%20%40devias-io)
+This dapp includes various contract to interact with.
 
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
+Requisites:
 
-[![Campaign Dapp - React](https://github.com/devias-io/material-kit-react/blob/main/public/static/thumbnail.png)](https://material-kit-react.devias.io/)
+1. Metamask installed broser
+2. Enough amount of ethers in Robsten Test Network
 
-> Free React Admin Dashboard made with [MUI's](https://mui.com/?ref=devias-io) components, [React](https://reactjs.org/?ref=devias-io) and of course [Next.js](https://github.com/vercel/next.js/?ref=devias-io) to boost your app development process!
+Here is robsten foucets:
 
-## Demo
+# https://ropsten.oregonctf.org/
 
-- [Dashboard Page](https://material-kit-react.devias.io)
-- [Users Page](https://material-kit-react.devias.io/customers)
-- [Products Page](https://material-kit-react.devias.io/products)
-- [Register Page](https://material-kit-react.devias.io/register)
-- [Login Page](https://material-kit-react.devias.io/login)
-- [Account Page](https://material-kit-react.devias.io/account)
-- [Settings Page](https://material-kit-react.devias.io/settings)
+# https://faucet.dimensions.network/
 
-## Free Figma Community File
+# https://faucet.egorfine.com/
 
-- [Duplicate File](https://www.figma.com/community/file/1039837897183395483/Devias-Dashboard-Design-Library-Kit)
+# https://faucet.metamask.io/
 
-## Upgrade to PRO Version
+A. Campaign
 
-We also have a pro version of this product which bundles even more pages and components if you want to save more time and design efforts :)
+Campaign contract allows user to create a project to collect fund. Project manager explains name, description and minimum amount to contribute. Contributer becomes allower to spend money. Only project manager open a request to spend fund and only contributers could vote to allow or disallow fund spending.
 
-| Free Version (this one) | [Campaign Dapp Pro - React](https://material-ui.com/store/items/devias-kit-pro/) |
-| ----------------------- | :------------------------------------------------------------------------------- |
-| **7** Demo Pages        | **40+** demo pages                                                               |
-| -                       | ✔ Dark & light mode                                                              |
-| -                       | ✔ Authentication with \*Amplify**, **Auth0**, **JWT** and **Firebase\*\*         |
-| -                       | ✔ TypeScript version - for Standard Plus and Extended license                    |
-| -                       | ✔ Design files (sketch & figma) - for Standard Plus and Extended license         |
-| -                       | ✔ Complete users flows                                                           |
+B. Token
 
-## Quick start
+User could create a ERC-20 token and open a crowd sale.
 
-- [Download from Github](https://github.com/devias-io/material-kit-react/archive/master.zip) or [Download from Devias](https://devias.io/products/material-kit-react) or clone the repo: `git clone https://github.com/devias-io/material-kit-react.git`
+C. Drug Authenticity
 
-- Make sure your NodeJS and npm versions are up to date for `React 17`
+In this contract authenticated foundation could add drug company to list their drugs and keep track of registered drug.
 
-- Install dependencies: `npm install` or `yarn`
+D. Wallet Request
 
-- Start the server: `npm run dev` or `yarn dev`
-
-- Views are on: `localhost:3000`
-
-## File Structure
-
-Within the download you'll find the following directories and files:
-
-```
-material-kit-react
-
-┌── .eslintrc.json
-├── .gitignore
-├── CHANGELOG.md
-├── jsconfig.json
-├── LICENSE.md
-├── package.json
-├── README.md
-├── public
-└── src
-	├── __mocks__
-	├── components
-	├── icons
-	├── theme
-	├── utils
-	└── pages
-		├── 404.js
-		├── _app.js
-		├── _document.js
-		├── account.js
-		├── customers.js
-		├── index.js
-		├── login.js
-		├── products.js
-		├── register.js
-		└── settings.js
-```
-
-## Resources
-
-- More freebies like this one: <https://devias.io>
-
-## Reporting Issues:
-
-- [Github Issues Page](https://github.com/devias-io/react-material-dashboard/issues?ref=devias-io)
-
-## License
-
-- Licensed under MIT (https://github.com/devias-io/react-material-dashboard/blob/master/LICENSE.md)
-
-## Contact Us
-
-- Email Us: support@deviasio.zendesk.com
-- [Follow us on Instagram](https://www.instagram.com/deviasio/)
+These items represents items in a game where user could mint as an NFT. When user claim an item he will get a request in his Mobile Wallet. Once user confirm request and pay the gas fee, he has his in game item minted as an NFT.
