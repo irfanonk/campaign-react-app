@@ -5,7 +5,7 @@ Requisites:
 1. Metamask installed browser
 2. Enough amount of ethers in Robsten Test Network
 
-Here is robsten foucets:
+Here are robsten foucets:
 
 https://ropsten.oregonctf.org/
 
