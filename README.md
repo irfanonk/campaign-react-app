@@ -12,6 +12,7 @@ https://ropsten.oregonctf.org/
 https://faucet.dimensions.network/
 
 https://faucet.egorfine.com/
+
 https://faucet.metamask.io/
 
 # Campaign
@@ -28,4 +29,4 @@ In this contract authenticated foundation could add drug company to list their d
 
 # Wallet Request
 
-These items represents items in a game where user could mint as an NFT. When user claim an item he will get a request in his Mobile Wallet. Once user confirm request and pay the gas fee, he has his in game item minted as an NFT.
+These items represents items in a game where user could mint as an NFT. When user claim an item he will get a request in his Mobile Wallet.(which bulit as another project) Once user confirm request and pay the gas fee, he has his in game item minted as an NFT.
