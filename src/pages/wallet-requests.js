@@ -54,7 +54,9 @@ const WalletRequests = () => {
       description:
         "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
       price: "$100",
-      image: "/static/images/request-items/sword-and-shield.jpg",
+      image:
+        "https://bafybeiaxmgtzusnsiqtnz6rgugjbc3xv3p7e57mw6jxo5yjyyvwgcbybmu.ipfs.dweb.link/sword-and-shield.jpg",
+      imageName: "sword-and-shield.jpg",
       toAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
     },
     {
@@ -65,7 +67,9 @@ const WalletRequests = () => {
       title: "Magic Wand",
       description: "It is a great weapon for any warrior.",
       price: "$150",
-      image: "/static/images/request-items/shield.jpg",
+      image:
+        "https://bafybeih3qrusp7n2na6pkfm23jtjejlavrid3u2karhyjrnlasamj62fly.ipfs.dweb.link/shield.jpg",
+      imageName: "shield.jpg",
       toAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
     },
     {
@@ -76,7 +80,9 @@ const WalletRequests = () => {
       title: "Key of the Dark Forest",
       description: "It is a great weapon for any warrior.",
       price: "$150",
-      image: "/static/images/request-items/key.jpg",
+      image:
+        "https://bafybeidy2u4p6mymspekldvdubk5nem2exjbl2bkdd5eozcqmqvlpayauq.ipfs.dweb.link/key.jpg",
+      imageName: "key.jpg",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
     },
     {
@@ -88,19 +94,51 @@ const WalletRequests = () => {
       description:
         "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
       price: "$100",
-      image: "/static/images/request-items/warrior.jpg",
+      image:
+        "https://bafybeidow7p4foc4dqiyx2zruqavmu3womhurln7zlc4utwddtwngchz74.ipfs.dweb.link/warrior.jpg",
+      imageName: "warrior.jpg",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
     },
     {
       id: 4,
-      year: "1444",
-      month: "9",
-      day: "9",
-      title: "Brother Warrior",
+      year: "1230",
+      month: "3",
+      day: "5",
+      title: "Slayer Warrior",
       description:
         "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
       price: "$100",
-      image: "/static/images/request-items/warrior.jpg",
+      image:
+        "https://bafybeih4qdw4k3vacx5osefsldg7lqizvbxxofypev5hvxytqldrzyz7eq.ipfs.dweb.link/slayer-warrior.png",
+      imageName: "slayer-warrior.png",
+      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+    },
+    {
+      id: 5,
+      year: "1530",
+      month: "3",
+      day: "5",
+      title: "Warrior Full Costume",
+      description:
+        "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
+      price: "$100",
+      image:
+        "https://bafybeiaxgswwkwr45d56bzj6ayffihgnbwgas7f7accp3euelmwkdrmimi.ipfs.dweb.link/warrior-full-costume.webp",
+      imageName: "warrior-full-costume.webp",
+      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+    },
+    {
+      id: 6,
+      year: "1940",
+      month: "3",
+      day: "5",
+      title: "Long Sword ",
+      description:
+        "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
+      price: "$100",
+      image:
+        "https://bafybeic5zyurnf2enevwicqjtd6sursmw2tk777dfhv5jxqqxcrvcdnrxq.ipfs.dweb.link/long-sword.jpeg",
+      imageName: "long-sword.jpeg",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
     },
   ];
@@ -135,7 +173,15 @@ const WalletRequests = () => {
               Dashboard
             </Button>
           </NextLink>
-          <Box display={"flex"}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              p: 1,
+              m: 1,
+              borderRadius: 1,
+            }}
+          >
             {requests.map((request) => (
               <Box
                 key={request.id}

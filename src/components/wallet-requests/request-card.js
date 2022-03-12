@@ -14,14 +14,7 @@ import { Clock as ClockIcon } from "../../icons/clock";
 import { Download as DownloadIcon } from "../../icons/download";
 
 export const RequestCard = ({ onClaimClick, request, ...rest }) => (
-  <Card
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-    }}
-    {...rest}
-  >
+  <Card sx={{}} {...rest}>
     <CardMedia component="img" height="250" image={request.image} alt="green iguana" />
     <CardContent>
       <Typography align="center" color="textPrimary" gutterBottom variant="h5">
