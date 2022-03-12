@@ -58,6 +58,7 @@ const WalletRequests = () => {
         "https://bafybeiaxmgtzusnsiqtnz6rgugjbc3xv3p7e57mw6jxo5yjyyvwgcbybmu.ipfs.dweb.link/sword-and-shield.jpg",
       imageName: "sword-and-shield.jpg",
       toAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
+      gameId: "1jn5vq5l0nm2jme",
     },
     {
       id: 1,
@@ -71,6 +72,7 @@ const WalletRequests = () => {
         "https://bafybeih3qrusp7n2na6pkfm23jtjejlavrid3u2karhyjrnlasamj62fly.ipfs.dweb.link/shield.jpg",
       imageName: "shield.jpg",
       toAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
+      gameId: "1jn5vq5l0nm2jme",
     },
     {
       id: 2,
@@ -84,6 +86,7 @@ const WalletRequests = () => {
         "https://bafybeidy2u4p6mymspekldvdubk5nem2exjbl2bkdd5eozcqmqvlpayauq.ipfs.dweb.link/key.jpg",
       imageName: "key.jpg",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameId: "1jn5vq5l0nm2jme",
     },
     {
       id: 3,
@@ -98,6 +101,7 @@ const WalletRequests = () => {
         "https://bafybeidow7p4foc4dqiyx2zruqavmu3womhurln7zlc4utwddtwngchz74.ipfs.dweb.link/warrior.jpg",
       imageName: "warrior.jpg",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameId: "1jn5vq5l0nm2jme",
     },
     {
       id: 4,
@@ -112,6 +116,7 @@ const WalletRequests = () => {
         "https://bafybeih4qdw4k3vacx5osefsldg7lqizvbxxofypev5hvxytqldrzyz7eq.ipfs.dweb.link/slayer-warrior.png",
       imageName: "slayer-warrior.png",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameId: "1jn5vq5l0nm2jme",
     },
     {
       id: 5,
@@ -126,6 +131,7 @@ const WalletRequests = () => {
         "https://bafybeiaxgswwkwr45d56bzj6ayffihgnbwgas7f7accp3euelmwkdrmimi.ipfs.dweb.link/warrior-full-costume.webp",
       imageName: "warrior-full-costume.webp",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameId: "1jn5vq5l0nm2jme",
     },
     {
       id: 6,
@@ -140,6 +146,7 @@ const WalletRequests = () => {
         "https://bafybeic5zyurnf2enevwicqjtd6sursmw2tk777dfhv5jxqqxcrvcdnrxq.ipfs.dweb.link/long-sword.jpeg",
       imageName: "long-sword.jpeg",
       toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameId: "1jn5vq5l0nm2jme",
     },
   ];
 
