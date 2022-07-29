@@ -5,9 +5,9 @@
   "version": "2.0.0",
   "private": false,
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "export": "next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix"

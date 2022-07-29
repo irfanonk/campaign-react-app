@@ -23,6 +23,15 @@ export const RequestCard = ({ onClaimClick, request, ...rest }) => (
       <Typography align="center" color="textPrimary" variant="body1">
         {request.description}
       </Typography>
+      <Typography align="center" color="textPrimary" variant="body1">
+        {request.year + " " + request.month + " " + request.day}
+      </Typography>
+      <Typography align="center" color="textPrimary" variant="body1">
+        {request.gamerAddress}
+      </Typography>
+      <Typography align="center" color="textPrimary" variant="body1">
+        {request.gameCode}
+      </Typography>
     </CardContent>
     <Box sx={{ flexGrow: 1 }}></Box>
     <Divider />

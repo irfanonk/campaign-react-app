@@ -47,36 +47,36 @@ const WalletRequests = () => {
   const requests = [
     {
       id: 0,
-      year: "1990",
-      month: "3",
-      day: "4",
-      title: "Holy Grail ",
+      year: "1923",
+      month: "6",
+      day: "19",
+      title: "Elite Cloak",
       description:
         "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
       price: "$100",
       image:
         "https://bafybeiaxmgtzusnsiqtnz6rgugjbc3xv3p7e57mw6jxo5yjyyvwgcbybmu.ipfs.dweb.link/sword-and-shield.jpg",
       imageName: "sword-and-shield.jpg",
-      toAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameCode: "1jn6235kl61cblfr",
     },
     {
       id: 1,
-      year: "1476",
+      year: "1434",
       month: "10",
-      day: "10",
-      title: "Magic Wand",
+      day: "12",
+      title: "Death of the Iguana",
       description: "It is a great weapon for any warrior.",
       price: "$150",
       image:
         "https://bafybeih3qrusp7n2na6pkfm23jtjejlavrid3u2karhyjrnlasamj62fly.ipfs.dweb.link/shield.jpg",
       imageName: "shield.jpg",
-      toAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameCode: "1jn6235kl61cblfr",
     },
     {
       id: 2,
-      year: "1801",
+      year: "1681",
       month: "6",
       day: "8",
       title: "Key of the Dark Forest",
@@ -85,12 +85,12 @@ const WalletRequests = () => {
       image:
         "https://bafybeidy2u4p6mymspekldvdubk5nem2exjbl2bkdd5eozcqmqvlpayauq.ipfs.dweb.link/key.jpg",
       imageName: "key.jpg",
-      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameCode: "1jn6235kl61cblfs",
     },
     {
       id: 3,
-      year: "1240",
+      year: "1234",
       month: "3",
       day: "4",
       title: "Quiver",
@@ -100,8 +100,8 @@ const WalletRequests = () => {
       image:
         "https://bafybeidow7p4foc4dqiyx2zruqavmu3womhurln7zlc4utwddtwngchz74.ipfs.dweb.link/warrior.jpg",
       imageName: "warrior.jpg",
-      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
+      gameCode: "1jn6235kl61cblfs",
     },
     {
       id: 4,
@@ -115,8 +115,8 @@ const WalletRequests = () => {
       image:
         "https://bafybeih4qdw4k3vacx5osefsldg7lqizvbxxofypev5hvxytqldrzyz7eq.ipfs.dweb.link/slayer-warrior.png",
       imageName: "slayer-warrior.png",
-      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
+      gameCode: "1jn6235kl61cblfr",
     },
     {
       id: 5,
@@ -130,8 +130,8 @@ const WalletRequests = () => {
       image:
         "https://bafybeiaxgswwkwr45d56bzj6ayffihgnbwgas7f7accp3euelmwkdrmimi.ipfs.dweb.link/warrior-full-costume.webp",
       imageName: "warrior-full-costume.webp",
-      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
+      gameCode: "1jn6235kl61cblfr",
     },
     {
       id: 6,
@@ -145,8 +145,23 @@ const WalletRequests = () => {
       image:
         "https://bafybeic5zyurnf2enevwicqjtd6sursmw2tk777dfhv5jxqqxcrvcdnrxq.ipfs.dweb.link/long-sword.jpeg",
       imageName: "long-sword.jpeg",
-      toAddress: "0xef86EfEA8498bc43A611c68b41C09D9e8Ca2C44B",
-      gameId: "1jn5vq5l0nm2jme",
+      gamerAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
+      gameCode: "1jn6235kl61cblfs",
+    },
+    {
+      id: 7,
+      year: "1923",
+      month: "6",
+      day: "11",
+      title: "Long Sword Artic",
+      description:
+        "Sword of the Divine is a powerful sword that can be used to defeat any enemy. It is a great weapon for any warrior.",
+      price: "$100",
+      image:
+        "https://bafybeic5zyurnf2enevwicqjtd6sursmw2tk777dfhv5jxqqxcrvcdnrxq.ipfs.dweb.link/long-sword.jpeg",
+      imageName: "long-sword.jpeg",
+      gamerAddress: "0x053526b3BB25147Be27F3Cf1e3ddCd5EbfAc023F",
+      gameCode: "1jn6235kl61cblfs",
     },
   ];
 
@@ -165,16 +180,8 @@ const WalletRequests = () => {
       <Head>
         <title>Requests </title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexGrow: 1,
-          minHeight: "100%",
-        }}
-      >
-        <Container>
+      <Box>
+        <>
           <NextLink href="/" passHref>
             <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
               Dashboard
@@ -184,6 +191,7 @@ const WalletRequests = () => {
             sx={{
               display: "flex",
               flexWrap: "wrap",
+
               p: 1,
               m: 1,
               borderRadius: 1,
@@ -194,7 +202,7 @@ const WalletRequests = () => {
                 key={request.id}
                 margin={2}
                 sx={{
-                  width: 300,
+                  width: 500,
                   "&:hover": {
                     backgroundColor: "primary.main",
                     opacity: [1, 0.8, 1],
@@ -205,7 +213,7 @@ const WalletRequests = () => {
               </Box>
             ))}
           </Box>
-        </Container>
+        </>
       </Box>
     </>
   );
